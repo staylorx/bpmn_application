@@ -27,10 +27,7 @@ class ResolvedWorkflowUnit with EquatableMixin {
   /// The resolved symbol scope for [unit].
   final SymbolTable symbolTable;
 
-  const ResolvedWorkflowUnit({
-    required this.unit,
-    required this.symbolTable,
-  });
+  const ResolvedWorkflowUnit({required this.unit, required this.symbolTable});
 
   // ---------------------------------------------------------------------------
   // Convenience pass-throughs
