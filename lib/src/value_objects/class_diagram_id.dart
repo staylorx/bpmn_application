@@ -1,3 +1,4 @@
+import 'package:bpmn_domain/bpmn_domain.dart';
 import 'package:equatable/equatable.dart';
 
 /// A strongly-typed identifier for a [CdCompilationUnit] in the repository,
@@ -27,6 +28,15 @@ class ClassDiagramId with EquatableMixin {
   final String fqn;
 
   const ClassDiagramId(this.fqn);
+
+  /// Derives the [ClassDiagramId] for the given [unit] from its package path
+  /// and diagram name.
+  factory ClassDiagramId.fromUnit(CdCompilationUnit unit) {
+    final fqn = unit.package.isRoot
+        ? unit.diagram.name
+        : '${unit.package}.${unit.diagram.name}';
+    return ClassDiagramId(fqn);
+  }
 
   /// Extracts the simple diagram name (the last segment of the FQN).
   ///

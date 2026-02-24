@@ -1,3 +1,4 @@
+import 'package:bpmn_domain/bpmn_domain.dart';
 import 'package:equatable/equatable.dart';
 
 /// A strongly-typed identifier for a [WorkflowCompilationUnit] in the
@@ -29,6 +30,11 @@ class WorkflowId with EquatableMixin {
   final String fqn;
 
   const WorkflowId(this.fqn);
+
+  /// Derives the [WorkflowId] for the given [unit] from its fully qualified
+  /// process name.
+  factory WorkflowId.fromUnit(WorkflowCompilationUnit unit) =>
+      WorkflowId(unit.fullyQualifiedName);
 
   /// Extracts the simple process name (the last segment of the FQN).
   ///
