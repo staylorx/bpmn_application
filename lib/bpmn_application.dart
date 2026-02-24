@@ -1,3 +1,5 @@
+library;
+
 // Clean-architecture application layer for the BPMN domain.
 // Exports all public contracts and use cases. Depends on `bpmn_domain` for
 // the core domain entities; does not contain parsing or I/O logic.
