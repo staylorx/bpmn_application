@@ -4,6 +4,9 @@ library;
 // Exports all public contracts and use cases. Depends on `bpmn_domain` for
 // the core domain entities; does not contain parsing or I/O logic.
 
+// reexport 'package:dartz/dartz.dart' hide Task, State, SymbolTable; // For Either and Option types, but hide domain entities that may conflict with our own.
+export 'package:bpmn_domain/bpmn_domain.dart';
+
 // Failures
 export 'src/failures/application_failure.dart';
 
