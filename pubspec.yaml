@@ -9,7 +9,9 @@ environment:
 
 dependencies:
   bpmn_domain:
-    path: ../bpmn_domain
+    git:
+      url: https://github.com/staylorx/bpmn_domain
+      ref: main
   equatable: ^2.0.8
   fpdart: ^1.2.0
 
