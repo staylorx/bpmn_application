@@ -1,5 +1,4 @@
 import 'package:bpmn_application/bpmn_application.dart';
-import 'package:bpmn_domain/bpmn_domain.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
@@ -17,7 +16,7 @@ class MockClassDiagramRepository extends Mock
 // Fixtures
 // ---------------------------------------------------------------------------
 
-final _packagePath = PackagePath.parse('de.bpmn.test');
+final _packagePath = PackagePath.parse('de.monticore.bpmn.test');
 
 WorkflowCompilationUnit _makeUnit(String name) => WorkflowCompilationUnit(
   package: _packagePath,
@@ -47,12 +46,15 @@ void main() {
 
   group('WorkflowId', () {
     test('stores fqn', () {
-      const id = WorkflowId('de.bpmn.test.MyProcess');
-      expect(id.fqn, 'de.bpmn.test.MyProcess');
+      const id = WorkflowId('de.monticore.bpmn.test.MyProcess');
+      expect(id.fqn, 'de.monticore.bpmn.test.MyProcess');
     });
 
     test('simpleName returns last segment', () {
-      expect(WorkflowId('de.bpmn.test.MyProcess').simpleName, 'MyProcess');
+      expect(
+        WorkflowId('de.monticore.bpmn.test.MyProcess').simpleName,
+        'MyProcess',
+      );
     });
 
     test('simpleName for root-package name', () {
@@ -60,7 +62,10 @@ void main() {
     });
 
     test('packagePath returns all-but-last segments', () {
-      expect(WorkflowId('de.bpmn.test.MyProcess').packagePath, 'de.bpmn.test');
+      expect(
+        WorkflowId('de.monticore.bpmn.test.MyProcess').packagePath,
+        'de.monticore.bpmn.test',
+      );
     });
 
     test('packagePath empty for root-package name', () {
@@ -69,19 +74,19 @@ void main() {
 
     test('equality is structural', () {
       expect(
-        WorkflowId('de.bpmn.test.MyProcess'),
-        WorkflowId('de.bpmn.test.MyProcess'),
+        WorkflowId('de.monticore.bpmn.test.MyProcess'),
+        WorkflowId('de.monticore.bpmn.test.MyProcess'),
       );
       expect(
-        WorkflowId('de.bpmn.test.MyProcess'),
-        isNot(WorkflowId('de.bpmn.test.Other')),
+        WorkflowId('de.monticore.bpmn.test.MyProcess'),
+        isNot(WorkflowId('de.monticore.bpmn.test.Other')),
       );
     });
 
     test('toString includes fqn', () {
       expect(
-        WorkflowId('de.bpmn.test.MyProcess').toString(),
-        contains('de.bpmn.test.MyProcess'),
+        WorkflowId('de.monticore.bpmn.test.MyProcess').toString(),
+        contains('de.monticore.bpmn.test.MyProcess'),
       );
     });
   });
@@ -92,28 +97,28 @@ void main() {
 
   group('ClassDiagramId', () {
     test('stores fqn', () {
-      const id = ClassDiagramId('de.bpmn.cds.OrderToDelivery');
-      expect(id.fqn, 'de.bpmn.cds.OrderToDelivery');
+      const id = ClassDiagramId('de.monticore.bpmn.cds.OrderToDelivery');
+      expect(id.fqn, 'de.monticore.bpmn.cds.OrderToDelivery');
     });
 
     test('simpleName returns last segment', () {
       expect(
-        ClassDiagramId('de.bpmn.cds.OrderToDelivery').simpleName,
+        ClassDiagramId('de.monticore.bpmn.cds.OrderToDelivery').simpleName,
         'OrderToDelivery',
       );
     });
 
     test('packagePath returns package', () {
       expect(
-        ClassDiagramId('de.bpmn.cds.OrderToDelivery').packagePath,
-        'de.bpmn.cds',
+        ClassDiagramId('de.monticore.bpmn.cds.OrderToDelivery').packagePath,
+        'de.monticore.bpmn.cds',
       );
     });
 
     test('equality is structural', () {
       expect(
-        ClassDiagramId('de.bpmn.cds.OrderToDelivery'),
-        ClassDiagramId('de.bpmn.cds.OrderToDelivery'),
+        ClassDiagramId('de.monticore.bpmn.cds.OrderToDelivery'),
+        ClassDiagramId('de.monticore.bpmn.cds.OrderToDelivery'),
       );
     });
   });
@@ -313,7 +318,7 @@ void main() {
 
     test('returns Right(unit) when found', () async {
       final unit = _makeUnit('PaymentProcessing');
-      final id = WorkflowId('de.bpmn.test.PaymentProcessing');
+      final id = WorkflowId('de.monticore.bpmn.test.PaymentProcessing');
       when(() => repo.findById(id)).thenReturn(TaskEither.right(Some(unit)));
 
       final result = await useCase.call(id).run();
@@ -321,7 +326,7 @@ void main() {
     });
 
     test('returns Left(WorkflowNotFound) when missing', () async {
-      final id = WorkflowId('de.bpmn.test.Missing');
+      final id = WorkflowId('de.monticore.bpmn.test.Missing');
       when(() => repo.findById(id)).thenReturn(TaskEither.right(const None()));
 
       final result = await useCase.call(id).run();
@@ -343,7 +348,7 @@ void main() {
       repo = MockWorkflowRepository();
       useCase = SaveWorkflowUseCase(repository: repo);
       unit = _makeUnit('PaymentProcessing');
-      id = WorkflowId('de.bpmn.test.PaymentProcessing');
+      id = WorkflowId('de.monticore.bpmn.test.PaymentProcessing');
     });
 
     test('upsert path saves without checking existence', () async {
@@ -400,7 +405,7 @@ void main() {
 
     test('returns Right(unit) when found', () async {
       final cdUnit = _makeCdUnit('OrderToDelivery');
-      final id = ClassDiagramId('de.bpmn.test.OrderToDelivery');
+      final id = ClassDiagramId('de.monticore.bpmn.test.OrderToDelivery');
       when(() => repo.findById(id)).thenReturn(TaskEither.right(Some(cdUnit)));
 
       final result = await useCase.call(id).run();
@@ -408,7 +413,7 @@ void main() {
     });
 
     test('returns Left(ClassDiagramNotFound) when missing', () async {
-      final id = ClassDiagramId('de.bpmn.test.Missing');
+      final id = ClassDiagramId('de.monticore.bpmn.test.Missing');
       when(() => repo.findById(id)).thenReturn(TaskEither.right(const None()));
 
       final result = await useCase.call(id).run();
@@ -430,7 +435,7 @@ void main() {
       repo = MockClassDiagramRepository();
       useCase = SaveClassDiagramUseCase(repository: repo);
       cdUnit = _makeCdUnit('OrderToDelivery');
-      id = ClassDiagramId('de.bpmn.test.OrderToDelivery');
+      id = ClassDiagramId('de.monticore.bpmn.test.OrderToDelivery');
     });
 
     test('upsert saves without checking existence', () async {
@@ -484,7 +489,10 @@ void main() {
       final unit = WorkflowCompilationUnit(
         package: _packagePath,
         imports: [
-          ImportStatement(path: 'de.bpmn.test.OrderToDelivery', wildcard: true),
+          ImportStatement(
+            path: 'de.monticore.bpmn.test.OrderToDelivery',
+            wildcard: true,
+          ),
         ],
         process: WfProcess(
           id: NodeId('OrderWorkflow'),
@@ -493,7 +501,9 @@ void main() {
       );
 
       when(
-        () => classRepo.findByImportPath('de.bpmn.test.OrderToDelivery'),
+        () => classRepo.findByImportPath(
+          'de.monticore.bpmn.test.OrderToDelivery',
+        ),
       ).thenReturn(TaskEither.right(Some(cd)));
 
       final result = await useCase.call(unit).run();
@@ -507,13 +517,16 @@ void main() {
       final unit = WorkflowCompilationUnit(
         package: _packagePath,
         imports: [
-          ImportStatement(path: 'de.bpmn.test.Missing', wildcard: true),
+          ImportStatement(
+            path: 'de.monticore.bpmn.test.Missing',
+            wildcard: true,
+          ),
         ],
         process: WfProcess(id: NodeId('SomeProcess')),
       );
 
       when(
-        () => classRepo.findByImportPath('de.bpmn.test.Missing'),
+        () => classRepo.findByImportPath('de.monticore.bpmn.test.Missing'),
       ).thenReturn(TaskEither.right(const None()));
 
       final result = await useCase.call(unit).run();
@@ -536,7 +549,10 @@ void main() {
       final unit = WorkflowCompilationUnit(
         package: _packagePath,
         imports: [
-          ImportStatement(path: 'de.bpmn.test.EmptyDiagram', wildcard: true),
+          ImportStatement(
+            path: 'de.monticore.bpmn.test.EmptyDiagram',
+            wildcard: true,
+          ),
         ],
         process: WfProcess(
           id: NodeId('TestProcess'),
@@ -545,7 +561,7 @@ void main() {
       );
 
       when(
-        () => classRepo.findByImportPath('de.bpmn.test.EmptyDiagram'),
+        () => classRepo.findByImportPath('de.monticore.bpmn.test.EmptyDiagram'),
       ).thenReturn(TaskEither.right(Some(cd)));
 
       final result = await useCase.call(unit).run();
