@@ -9,12 +9,11 @@ environment:
 
 dependencies:
   bpmn_domain:
-    git:
-      url: https://github.com/staylorx/bpmn_domain.git
-      ref: main
+    path: ../bpmn_domain
   equatable: ^2.0.8
   fpdart: ^1.2.0
 
 dev_dependencies:
   lints: ^6.0.0
+  mocktail: ^1.0.4
   test: ^1.25.6
