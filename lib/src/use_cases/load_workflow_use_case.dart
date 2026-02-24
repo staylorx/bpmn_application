@@ -22,7 +22,7 @@ import '../value_objects/workflow_id.dart';
 /// ```dart
 /// final useCase = LoadWorkflowUseCase(repository: repo);
 /// final result = await useCase
-///     .execute(WorkflowId('de.monticore.bpmn.examples.OrderToDeliveryWorkflow'))
+///     .call(WorkflowId('de.monticore.bpmn.examples.OrderToDeliveryWorkflow'))
 ///     .run();
 /// result.fold(
 ///   (f) => print('Error: ${f.message}'),
@@ -38,7 +38,7 @@ class LoadWorkflowUseCase {
   /// Executes the load.
   ///
   /// [id] — the fully qualified name of the workflow to retrieve.
-  TaskEither<ApplicationFailure, WorkflowCompilationUnit> execute(WorkflowId id) =>
+  TaskEither<ApplicationFailure, WorkflowCompilationUnit> call(WorkflowId id) =>
       _repository
           .findById(id)
           .mapLeft((e) => WorkflowNotFound(id) as ApplicationFailure)

@@ -26,7 +26,7 @@ import '../value_objects/class_diagram_id.dart';
 ///
 /// ```dart
 /// final useCase = SaveClassDiagramUseCase(repository: repo);
-/// final result = await useCase.execute(cdUnit).run();
+/// final result = await useCase.call(cdUnit).run();
 /// result.fold(
 ///   (f) => print('Save failed: ${f.message}'),
 ///   (unit) => print('Saved: ${unit.diagram.name}'),
@@ -43,7 +43,7 @@ class SaveClassDiagramUseCase {
   /// [unit] — the class diagram compilation unit to persist.
   /// [failIfExists] — when `true`, returns [ClassDiagramAlreadyExists] if a
   ///   unit with the same FQN already exists instead of overwriting it.
-  TaskEither<ApplicationFailure, CdCompilationUnit> execute(
+  TaskEither<ApplicationFailure, CdCompilationUnit> call(
     CdCompilationUnit unit, {
     bool failIfExists = false,
   }) {

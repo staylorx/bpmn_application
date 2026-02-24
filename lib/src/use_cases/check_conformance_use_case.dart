@@ -52,7 +52,7 @@ import '../value_objects/workflow_id.dart';
 ///
 /// ```dart
 /// final useCase = CheckConformanceUseCase(workflowRepo: repo);
-/// final result = await useCase.execute(concreteUnit).run();
+/// final result = await useCase.call(concreteUnit).run();
 /// result.fold(
 ///   (f) => print('Cannot check: ${f.message}'),
 ///   (report) {
@@ -68,7 +68,7 @@ class CheckConformanceUseCase {
     : _workflowRepo = workflowRepo;
 
   /// Executes the conformance check for [concreteUnit].
-  TaskEither<ApplicationFailure, ConformanceReport> execute(
+  TaskEither<ApplicationFailure, ConformanceReport> call(
     WorkflowCompilationUnit concreteUnit,
   ) {
     final tasks = _allTasks(concreteUnit.process);

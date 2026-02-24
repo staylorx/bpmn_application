@@ -56,7 +56,7 @@ class ResolveSymbolsUseCase {
     : _classRepo = classRepo;
 
   /// Executes symbol resolution for [unit].
-  TaskEither<ApplicationFailure, ResolvedWorkflowUnit> execute(
+  TaskEither<ApplicationFailure, ResolvedWorkflowUnit> call(
     WorkflowCompilationUnit unit,
   ) => _resolveImports(unit).flatMap(
     (typeMap) => _resolveTypeRefs(

@@ -40,7 +40,7 @@ import 'package:fpdart/fpdart.dart';
 ///
 /// ```dart
 /// final useCase = ValidateWorkflowUseCase();
-/// final result = useCase.execute(compilationUnit);
+/// final result = useCase.call(compilationUnit);
 /// result.fold(
 ///   (failures) {
 ///     for (final f in failures) print('  ✗ ${f.message}');
@@ -54,7 +54,7 @@ class ValidateWorkflowUseCase {
   /// Validates [unit] and returns all CoCo violations found.
   ///
   /// [unit] — the compilation unit whose embedded [WfProcess] is checked.
-  Either<List<WorkflowFailure>, WorkflowCompilationUnit> execute(
+  Either<List<WorkflowFailure>, WorkflowCompilationUnit> call(
     WorkflowCompilationUnit unit,
   ) {
     final failures = _check(unit.process);

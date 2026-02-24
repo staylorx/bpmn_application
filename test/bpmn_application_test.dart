@@ -316,7 +316,7 @@ void main() {
       final id = WorkflowId('de.bpmn.test.PaymentProcessing');
       when(() => repo.findById(id)).thenReturn(TaskEither.right(Some(unit)));
 
-      final result = await useCase.execute(id).run();
+      final result = await useCase.call(id).run();
       expect(result, Right(unit));
     });
 
@@ -324,7 +324,7 @@ void main() {
       final id = WorkflowId('de.bpmn.test.Missing');
       when(() => repo.findById(id)).thenReturn(TaskEither.right(const None()));
 
-      final result = await useCase.execute(id).run();
+      final result = await useCase.call(id).run();
       expect(result, Left(WorkflowNotFound(id)));
     });
   });
@@ -349,7 +349,7 @@ void main() {
     test('upsert path saves without checking existence', () async {
       when(() => repo.save(unit)).thenReturn(TaskEither.right(unit));
 
-      final result = await useCase.execute(unit).run();
+      final result = await useCase.call(unit).run();
       expect(result, Right(unit));
       verifyNever(() => repo.findById(any()));
     });
@@ -358,14 +358,14 @@ void main() {
       when(() => repo.findById(id)).thenReturn(TaskEither.right(const None()));
       when(() => repo.save(unit)).thenReturn(TaskEither.right(unit));
 
-      final result = await useCase.execute(unit, failIfExists: true).run();
+      final result = await useCase.call(unit, failIfExists: true).run();
       expect(result, Right(unit));
     });
 
     test('failIfExists returns Left when already present', () async {
       when(() => repo.findById(id)).thenReturn(TaskEither.right(Some(unit)));
 
-      final result = await useCase.execute(unit, failIfExists: true).run();
+      final result = await useCase.call(unit, failIfExists: true).run();
       expect(result, Left(WorkflowAlreadyExists(id)));
       verifyNever(() => repo.save(any()));
     });
@@ -380,7 +380,7 @@ void main() {
 
     test('returns Right for a process with no violations (stub)', () {
       final unit = _makeUnit('LeaveRequest');
-      final result = useCase.execute(unit);
+      final result = useCase.call(unit);
       expect(result.isRight(), isTrue);
     });
   });
@@ -403,7 +403,7 @@ void main() {
       final id = ClassDiagramId('de.bpmn.test.OrderToDelivery');
       when(() => repo.findById(id)).thenReturn(TaskEither.right(Some(cdUnit)));
 
-      final result = await useCase.execute(id).run();
+      final result = await useCase.call(id).run();
       expect(result, Right(cdUnit));
     });
 
@@ -411,7 +411,7 @@ void main() {
       final id = ClassDiagramId('de.bpmn.test.Missing');
       when(() => repo.findById(id)).thenReturn(TaskEither.right(const None()));
 
-      final result = await useCase.execute(id).run();
+      final result = await useCase.call(id).run();
       expect(result, Left(ClassDiagramNotFound(id)));
     });
   });
@@ -436,7 +436,7 @@ void main() {
     test('upsert saves without checking existence', () async {
       when(() => repo.save(cdUnit)).thenReturn(TaskEither.right(cdUnit));
 
-      final result = await useCase.execute(cdUnit).run();
+      final result = await useCase.call(cdUnit).run();
       expect(result, Right(cdUnit));
       verifyNever(() => repo.findById(any()));
     });
@@ -445,14 +445,14 @@ void main() {
       when(() => repo.findById(id)).thenReturn(TaskEither.right(const None()));
       when(() => repo.save(cdUnit)).thenReturn(TaskEither.right(cdUnit));
 
-      final result = await useCase.execute(cdUnit, failIfExists: true).run();
+      final result = await useCase.call(cdUnit, failIfExists: true).run();
       expect(result, Right(cdUnit));
     });
 
     test('failIfExists returns Left when already present', () async {
       when(() => repo.findById(id)).thenReturn(TaskEither.right(Some(cdUnit)));
 
-      final result = await useCase.execute(cdUnit, failIfExists: true).run();
+      final result = await useCase.call(cdUnit, failIfExists: true).run();
       expect(result, Left(ClassDiagramAlreadyExists(id)));
       verifyNever(() => repo.save(any()));
     });
@@ -496,7 +496,7 @@ void main() {
         () => classRepo.findByImportPath('de.bpmn.test.OrderToDelivery'),
       ).thenReturn(TaskEither.right(Some(cd)));
 
-      final result = await useCase.execute(unit).run();
+      final result = await useCase.call(unit).run();
       expect(result.isRight(), isTrue);
       final resolved = result.getOrElse((_) => throw StateError('unexpected'));
       expect(resolved.symbolTable.resolveType('Order'), Some(orderClass));
@@ -516,7 +516,7 @@ void main() {
         () => classRepo.findByImportPath('de.bpmn.test.Missing'),
       ).thenReturn(TaskEither.right(const None()));
 
-      final result = await useCase.execute(unit).run();
+      final result = await useCase.call(unit).run();
       expect(result.isLeft(), isTrue);
       result.fold(
         (f) => expect(f, isA<UnresolvedImport>()),
@@ -548,7 +548,7 @@ void main() {
         () => classRepo.findByImportPath('de.bpmn.test.EmptyDiagram'),
       ).thenReturn(TaskEither.right(Some(cd)));
 
-      final result = await useCase.execute(unit).run();
+      final result = await useCase.call(unit).run();
       expect(result.isLeft(), isTrue);
       result.fold(
         (f) => expect(f, isA<UnresolvedTypeReference>()),
@@ -562,7 +562,7 @@ void main() {
         process: WfProcess(id: NodeId('SimpleProcess')),
       );
 
-      final result = await useCase.execute(unit).run();
+      final result = await useCase.call(unit).run();
       expect(result.isRight(), isTrue);
       final resolved = result.getOrElse((_) => throw StateError('unexpected'));
       expect(resolved.symbolTable.size, 0);
@@ -591,7 +591,7 @@ void main() {
         ),
       );
 
-      final result = await useCase.execute(unit).run();
+      final result = await useCase.call(unit).run();
       expect(result.isRight(), isTrue);
       final report = result.getOrElse((_) => throw StateError('unexpected'));
       expect(report.isConformant, isTrue);
@@ -630,7 +630,7 @@ void main() {
         () => repo.findById(WorkflowId('AbstractTask')),
       ).thenReturn(TaskEither.right(Some(referenceUnit)));
 
-      final result = await useCase.execute(concreteUnit).run();
+      final result = await useCase.call(concreteUnit).run();
       expect(result.isRight(), isTrue);
       final report = result.getOrElse((_) => throw StateError('unexpected'));
       expect(report.isConformant, isTrue);
@@ -669,7 +669,7 @@ void main() {
         () => repo.findById(WorkflowId('AbstractTask')),
       ).thenReturn(TaskEither.right(Some(referenceUnit)));
 
-      final result = await useCase.execute(concreteUnit).run();
+      final result = await useCase.call(concreteUnit).run();
       expect(result.isRight(), isTrue);
       final report = result.getOrElse((_) => throw StateError('unexpected'));
       expect(report.isConformant, isFalse);
@@ -696,7 +696,7 @@ void main() {
         () => repo.findById(WorkflowId('MissingReference')),
       ).thenReturn(TaskEither.right(const None()));
 
-      final result = await useCase.execute(concreteUnit).run();
+      final result = await useCase.call(concreteUnit).run();
       expect(result.isLeft(), isTrue);
       result.fold(
         (f) => expect(f, isA<ReferenceProcessNotFound>()),

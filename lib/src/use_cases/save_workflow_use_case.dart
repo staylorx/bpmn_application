@@ -28,7 +28,7 @@ import '../value_objects/workflow_id.dart';
 ///
 /// ```dart
 /// final useCase = SaveWorkflowUseCase(repository: repo);
-/// final result = await useCase.execute(compilationUnit).run();
+/// final result = await useCase.call(compilationUnit).run();
 /// result.fold(
 ///   (f) => print('Save failed: ${f.message}'),
 ///   (unit) => print('Saved: ${unit.fullyQualifiedName}'),
@@ -45,7 +45,7 @@ class SaveWorkflowUseCase {
   /// [unit] — the workflow compilation unit to persist.
   /// [failIfExists] — when `true`, returns [WorkflowAlreadyExists] if a unit
   ///   with the same FQN already exists instead of overwriting it.
-  TaskEither<ApplicationFailure, WorkflowCompilationUnit> execute(
+  TaskEither<ApplicationFailure, WorkflowCompilationUnit> call(
     WorkflowCompilationUnit unit, {
     bool failIfExists = false,
   }) {

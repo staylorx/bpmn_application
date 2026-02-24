@@ -22,7 +22,7 @@ import '../value_objects/class_diagram_id.dart';
 /// ```dart
 /// final useCase = LoadClassDiagramUseCase(repository: repo);
 /// final result = await useCase
-///     .execute(ClassDiagramId('de.monticore.bpmn.cds.OrderToDelivery'))
+///     .call(ClassDiagramId('de.monticore.bpmn.cds.OrderToDelivery'))
 ///     .run();
 /// result.fold(
 ///   (f) => print('Error: ${f.message}'),
@@ -38,7 +38,7 @@ class LoadClassDiagramUseCase {
   /// Executes the load.
   ///
   /// [id] — the fully qualified name of the class diagram to retrieve.
-  TaskEither<ApplicationFailure, CdCompilationUnit> execute(ClassDiagramId id) =>
+  TaskEither<ApplicationFailure, CdCompilationUnit> call(ClassDiagramId id) =>
       _repository
           .findById(id)
           .mapLeft((e) => ClassDiagramNotFound(id) as ApplicationFailure)
