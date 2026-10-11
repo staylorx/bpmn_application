@@ -4,11 +4,12 @@ Pure-Dart clean-architecture **application layer** for BPMN: use cases, reposito
 
 ## Gate
 
-No CI workflow is configured; the gate is:
+No CI workflow is configured; the gate is (reachable in one shot via `melos run verify`, which runs analyze → format → test):
 
 ```sh
-dart analyze --fatal-infos --fatal-warnings   # → "No issues found!" (zero diagnostics of any severity)
-dart test                                     # → all pass
+melos run analyze     # dart analyze --fatal-infos --fatal-warnings → "No issues found!" (zero diagnostics of any severity)
+melos run format      # dart format --output=none --set-exit-if-changed . → no diffs
+melos run test        # dart test → all pass
 ```
 
 `analysis_options.yaml` enables `strict-casts`, `strict-raw-types`, `always_declare_return_types`, `avoid_print`.
