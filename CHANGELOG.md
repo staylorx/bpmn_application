@@ -16,9 +16,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `Deviation: <path> - <what diverges and why>` item for later review.
 - `.gitattributes` — `* text=auto eol=lf`, so every text file is normalised to
   LF on commit regardless of which machine or tool wrote it.
+- `.github/workflows/ci.yml` — CI runs analyze, format and test on push to
+  `main` and on every PR, on a multi-SDK matrix of the declared floor (3.11.0)
+  and latest stable (commit `97f296b`). Previously neither `B7` nor an
+  error-style declaration existed.
 
 ### Changed
 
+- Error style declared in `AGENTS.md` (bible §4, commit `bb40139`): use-case
+  and repository seams expose `Either<DomainFailure, T>` / `TaskEither`
+  (fpdart), with typed failures, never bare exceptions. Resolves the
+  "error style is not declared" deviation; the barrel doc comment and README
+  remain to be updated.
 - Reconciled this file with `pubspec.yaml`. The manifest declares version
   `0.0.1`, so the previous `## 1.0.0` heading — which never corresponded to a
   release — was renamed to `## 0.0.1` and the "Initial version." line kept as its
