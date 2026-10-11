@@ -19,7 +19,7 @@ import 'package:equatable/equatable.dart';
 /// // From a CdCompilationUnit
 /// final id = ClassDiagramId.fromUnit(unit);
 /// ```
-class ClassDiagramId with EquatableMixin {
+class ClassDiagramId with Equatable {
   /// The fully qualified name of the class diagram.
   ///
   /// Format: `<package>.<diagramName>`, e.g.

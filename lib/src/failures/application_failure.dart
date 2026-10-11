@@ -29,7 +29,7 @@ import '../value_objects/workflow_id.dart';
 ///   (unit) => print('Loaded: ${unit.fullyQualifiedName}'),
 /// );
 /// ```
-sealed class ApplicationFailure with EquatableMixin {
+sealed class ApplicationFailure with Equatable {
   const ApplicationFailure();
 
   /// A human-readable description of the failure, suitable for logging.

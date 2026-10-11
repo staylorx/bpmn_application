@@ -14,7 +14,7 @@ import 'package:equatable/equatable.dart';
 /// <<incarnates="Research">> task LiteratureReview;
 /// // → IncarnationMapping(concreteTask: 'LiteratureReview', referenceTask: 'Research')
 /// ```
-class IncarnationMapping with EquatableMixin {
+class IncarnationMapping with Equatable {
   /// The [NodeId] of the task in the concrete (implementing) process.
   final NodeId concreteTask;
 
@@ -67,7 +67,7 @@ class IncarnationMapping with EquatableMixin {
 ///   },
 /// );
 /// ```
-class ConformanceReport with EquatableMixin {
+class ConformanceReport with Equatable {
   /// The fully qualified name of the concrete (implementing) process.
   final String concreteProcessFqn;
 

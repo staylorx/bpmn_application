@@ -21,7 +21,7 @@ import 'package:equatable/equatable.dart';
 /// // From a WorkflowCompilationUnit
 /// final id = WorkflowId.fromUnit(unit);
 /// ```
-class WorkflowId with EquatableMixin {
+class WorkflowId with Equatable {
   /// The fully qualified name of the workflow process.
   ///
   /// Format: `<package>.<processName>`, e.g.

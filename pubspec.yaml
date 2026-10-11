@@ -17,6 +17,34 @@ dependencies:
 
 dev_dependencies:
   lints: ^6.0.0
+  melos: ^8.8.0
   mocktail: ^1.0.4
   test: ^1.25.6
   shouldly: ^0.5.0+1
+
+melos:
+  useRootAsPackage: true
+  scripts:
+    analyze:
+      description: Run static analysis on the package
+      run: dart analyze --fatal-infos
+    format:
+      description: Check formatting (no changes applied)
+      run: dart format --set-exit-if-changed .
+    format:fix:
+      description: Apply dart format
+      run: dart format .
+    test:
+      description: Run the test suite
+      run: dart test
+    verify:
+      description: Run all checks (analyze, format, test) for CI
+      steps:
+        - melos run analyze
+        - melos run format
+        - melos run test
+    clean:deep:
+      description: Nuclear clean — removes everything not tracked by git (git clean -fdx), then re-bootstraps
+      steps:
+        - git clean -fdx
+        - melos bs

@@ -143,12 +143,12 @@ class CheckConformanceUseCase {
 
     for (final task in tasks) {
       if (!task.isIncarnation) {
-        violations.add(TaskNotIncarnated(task.id));
+        violations.add(TaskNotIncarnated(taskId: task.id));
         continue;
       }
       final target = task.incarnatesTarget!;
       if (!referenceTasks.containsKey(target)) {
-        violations.add(TaskNotIncarnated(task.id));
+        violations.add(TaskNotIncarnated(taskId: task.id));
       } else {
         mappings.add(
           IncarnationMapping(

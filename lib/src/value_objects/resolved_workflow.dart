@@ -20,7 +20,7 @@ import 'workflow_id.dart';
 /// Both [unit] and [symbolTable] are immutable.  Creating a
 /// [ResolvedWorkflowUnit] does not alter the original [WorkflowCompilationUnit]
 /// — it is simply composed alongside the resolved symbol scope.
-class ResolvedWorkflowUnit with EquatableMixin {
+class ResolvedWorkflowUnit with Equatable {
   /// The original, unmodified compilation unit.
   final WorkflowCompilationUnit unit;
 

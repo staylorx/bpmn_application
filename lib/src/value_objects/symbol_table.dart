@@ -32,7 +32,7 @@ import 'package:fpdart/fpdart.dart';
 ///   operations: {'authorisePayment': authoriseOp},
 /// );
 /// ```
-class SymbolTable with EquatableMixin {
+class SymbolTable with Equatable {
   /// Classifier map built from all imported class diagrams.
   ///
   /// Keys are **simple type names** as they appear in `WfTypeRef.expression`,

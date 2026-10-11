@@ -16,7 +16,7 @@ class MockClassDiagramRepository extends Mock
 // Fixtures
 // ---------------------------------------------------------------------------
 
-final _packagePath = PackagePath.parse('de.monticore.bpmn.test');
+final _packagePath = PackagePath.parse(dotSeparated: 'de.monticore.bpmn.test');
 
 WorkflowCompilationUnit _makeUnit(String name) => WorkflowCompilationUnit(
   package: _packagePath,
@@ -211,7 +211,7 @@ void main() {
       final report = ConformanceReport(
         concreteProcessFqn: 'de.test.ConcreteProcess',
         referenceProcessFqn: 'de.test.ReferenceProcess',
-        violations: [TaskNotIncarnated(NodeId('SomeTask'))],
+        violations: [TaskNotIncarnated(taskId: NodeId('SomeTask'))],
       );
       expect(report.isConformant, isFalse);
     });
@@ -603,7 +603,7 @@ void main() {
         package: _packagePath,
         process: WfProcess(
           id: NodeId('ConcreteProcess'),
-          elements: [WfTask.generic('SomeTask')],
+          elements: [WfTask.generic(name: 'SomeTask')],
         ),
       );
 
@@ -623,7 +623,7 @@ void main() {
         package: _packagePath,
         process: WfProcess(
           id: NodeId('AbstractTask'),
-          elements: [WfTask.generic('AbstractTask')],
+          elements: [WfTask.generic(name: 'AbstractTask')],
         ),
       );
 
@@ -635,7 +635,9 @@ void main() {
             WfTask(
               id: NodeId('ConcreteTask'),
               modifier: WfModifier(
-                stereotypes: [Stereotype.incarnates('AbstractTask')],
+                stereotypes: [
+                  Stereotype.incarnates(referenceName: 'AbstractTask'),
+                ],
               ),
             ),
           ],
@@ -660,7 +662,7 @@ void main() {
         package: _packagePath,
         process: WfProcess(
           id: NodeId('AbstractTask'),
-          elements: [WfTask.generic('AbstractTask')],
+          elements: [WfTask.generic(name: 'AbstractTask')],
         ),
       );
 
@@ -673,10 +675,12 @@ void main() {
             WfTask(
               id: NodeId('ConcreteTask'),
               modifier: WfModifier(
-                stereotypes: [Stereotype.incarnates('AbstractTask')],
+                stereotypes: [
+                  Stereotype.incarnates(referenceName: 'AbstractTask'),
+                ],
               ),
             ),
-            WfTask.generic('OrphanTask'),
+            WfTask.generic(name: 'OrphanTask'),
           ],
         ),
       );
@@ -701,7 +705,9 @@ void main() {
             WfTask(
               id: NodeId('ConcreteTask'),
               modifier: WfModifier(
-                stereotypes: [Stereotype.incarnates('MissingReference')],
+                stereotypes: [
+                  Stereotype.incarnates(referenceName: 'MissingReference'),
+                ],
               ),
             ),
           ],
