@@ -110,7 +110,7 @@ wrong about the case in hand.
 
 - Deviation: (whole repo) - there is no `dart_arch_test` boundary test; it is not
   a dev_dependency and no test invokes it. Bible §2/§9 make the onion direction +
-  cycle-free boundary test a hard CI gate.
+  cycle-free boundary test a hard gate.
 
 - Deviation: lib/bpmn_application.dart - the barrel opens with a bare `library;`
   followed by plain `//` prose; barrels are the one place the bible permits a
